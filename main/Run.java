@@ -13,12 +13,13 @@ public class Run {
 	{
 		
 		RRFrame view = new RRFrame("frame1");
-		// do this later runframe.createAndShowGUI();
+		
 		
 		DataModel model = new DataModel();
 		
 		Controller controller = new Controller(view,model);
 		
 		controller.printRange();
+		controller.initGui();
 	}
 }

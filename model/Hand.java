@@ -1,7 +1,7 @@
 package model;
 
 public class Hand {
-	private enum status{IN, OUT, UNDECIDED}
+	public enum status{IN, OUT, UNDECIDED}
 	
 	/*
 	 * status options
@@ -17,6 +17,19 @@ public class Hand {
 	public Hand(String label) {
 		this.label = label;
 		this.active = Hand.status.OUT;
+	}
+	
+	public Hand.status changeStatus() {
+		if(active==Hand.status.IN) {
+			active = Hand.status.UNDECIDED;
+		} else if (active==Hand.status.OUT) {
+			active = Hand.status.IN;
+		} else if (active==Hand.status.UNDECIDED) {
+			active = Hand.status.OUT;
+		} else {
+			//wow big error here
+		}
+		return active;
 	}
 	
 	public String getLabel() {
