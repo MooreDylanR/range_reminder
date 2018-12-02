@@ -1,11 +1,12 @@
 package model;
 
 public class Range {
-	String id = "test";
+	public String id;
 	public Hand[][] hands;
 	
 	
-	public Range() {
+	public Range(String id) {
+		this.id = id;
 		this.hands = new Hand[13][13];
 		
 		hands[0][0] = new Hand("22");	hands[1][0] = new Hand("32o");	hands[2][0] = new Hand("42o");

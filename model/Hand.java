@@ -19,7 +19,7 @@ public class Hand {
 		this.active = Hand.status.OUT;
 	}
 	
-	public Hand.status changeStatus() {
+	public Hand.status cycleAndReturnStatus() {
 		if(active==Hand.status.IN) {
 			active = Hand.status.UNDECIDED;
 		} else if (active==Hand.status.OUT) {
@@ -30,6 +30,14 @@ public class Hand {
 			//wow big error here
 		}
 		return active;
+	}
+	
+	public Hand.status getStatus() {
+		return active;
+	}
+	
+	public void setStatus(Hand.status status) {
+		this.active = status;
 	}
 	
 	public String getLabel() {
