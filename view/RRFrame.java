@@ -25,8 +25,11 @@ public class RRFrame extends JFrame{
 	
 	static JButton[][] buttons = new JButton[13][13];
 	static JTextField loadSavePath = new JTextField(50);
+	static JTextField rangeNameField = new JTextField();
+	static DefaultListModel<String> rangeSelectionModel = new DefaultListModel<String>();
 	
 	static JLabel rangeLabel;
+	
 	
 	
 	public RRFrame(String name) {
@@ -79,11 +82,22 @@ public class RRFrame extends JFrame{
 		return loadSavePath.getText();
 	}
 	
+	public String getRangeBoxText() {
+		return rangeNameField.getText();
+	}
+	
+	public static void addRangeToRanges(String rangeName) {
+		rangeSelectionModel.addElement(rangeName);
+	}
+	
 	private void addButtonsToRangePanel(JPanel rangePanel, Controller controller) {
 		GridBagConstraints c = new GridBagConstraints();
 		Range range = controller.getActiveRange();
+		JPanel handsPanel = new JPanel();
+		handsPanel.setLayout(rangeGrid);
 		
 		// init buttons of all hands, set size, add all to rangePanel
+		// each hand button added to the handsPanel
 		for(int i=0;i<13;i++) {
 			for(int j=0;j<13;j++) {
 				buttons[i][j] = new JButton(range.hands[i][j].getLabel());
@@ -102,14 +116,53 @@ public class RRFrame extends JFrame{
 				c.gridx=(13-i);
 				c.gridy=(13-j+1);
 			
-				rangePanel.add(buttons[i][j],c);
+				handsPanel.add(buttons[i][j],c);
 			}			
 		}
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx=2;
+		c.gridy=1;
+		c.gridheight =13;
+		c.gridwidth = 13;
+		rangePanel.add(handsPanel, c);
+				
+		
+		JList<String> rangeSelectionBox = new JList<String>(rangeSelectionModel);
+		rangeListSelectionListener rlsl = new rangeListSelectionListener(rangeSelectionBox, controller);
+		rangeSelectionBox.addListSelectionListener(rlsl);
+		rangeSelectionBox.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		rangeSelectionBox.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		//can call the below statement anywhere
+		rangeSelectionModel.addElement("test");
+		rangeSelectionModel.addElement("test");
+		rangeSelectionModel.addElement("test");
+		rangeSelectionModel.addElement("test");
+		rangeSelectionBox.setPreferredSize(new Dimension(100,250));
+		c.gridx=0;
+		c.gridy=1;
+		c.gridheight =1;
+		c.gridwidth = 1;
+		rangePanel.add(rangeSelectionBox, c);
+				
+		c.gridx=0;
+		c.gridy=2;
+		c.gridheight =1;
+		c.gridwidth = 1;
+		rangePanel.add(rangeNameField, c);
+		
+		NewRangeListener newrl = new NewRangeListener(controller);
+		JButton addRangeButton = new JButton("create new range");
+		addRangeButton.addActionListener(newrl);
+		c.gridx=0;
+		c.gridy=3;
+		c.gridheight =1;
+		c.gridwidth = 1;
+		rangePanel.add(addRangeButton, c);		
+		
 		saveRangeListener srl = new saveRangeListener(controller);
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(srl);
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.BOTH;
 		c.gridx=0;
 		c.gridy=15;
 		c.gridheight =2;
@@ -130,8 +183,6 @@ public class RRFrame extends JFrame{
 		PathBoxListener pbl = new PathBoxListener(controller);
 		loadSavePath.addActionListener(pbl);
 		loadSavePath.setText("C:/temp/tempfile1.txt");
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.BOTH;
 		c.gridx=9;
 		c.gridy=15;
 		c.gridheight =2;
@@ -144,10 +195,8 @@ public class RRFrame extends JFrame{
 		prevRangeButton.setPreferredSize(new Dimension(40,40));
 		prevRangeButton.setMargin(new Insets(0, 0, 0, 0));
 		prevRangeButton.setFont(new Font("Arial", Font.PLAIN, 12));
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx=(14);
-		c.gridy=(1);
+		c.gridx=(0);
+		c.gridy=(12);
 		c.gridheight =1;
 		c.gridwidth = 1;
 		rangePanel.add(prevRangeButton, c);
@@ -158,17 +207,13 @@ public class RRFrame extends JFrame{
 		nextRangeButton.setPreferredSize(new Dimension(40,40));
 		nextRangeButton.setMargin(new Insets(0, 0, 0, 0));
 		nextRangeButton.setFont(new Font("Arial", Font.PLAIN, 12));
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx=(14);
-		c.gridy=(2);
+		c.gridx=(0);
+		c.gridy=(13);
 		c.gridheight =1;
 		c.gridwidth = 1;
 		rangePanel.add(nextRangeButton, c);
 		
 		rangeLabel = new JLabel("helloworld");
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.BOTH;
 		c.gridx=(1);
 		c.gridy=(0);
 		c.gridheight =1;

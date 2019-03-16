@@ -201,6 +201,14 @@ public class Controller {
 		}
 	}
 	
+	public void setRange(int activeRange) {
+		this.activeRange = activeRange;
+	}
+	
+	public void makeNewRange() {
+		RRFrame.addRangeToRanges(view.getRangeBoxText());
+	}
+	
 	public void updatePath() {
 		this.path = view.getPathBoxText();
 		System.out.println("new path: " + this.path);
@@ -209,4 +217,5 @@ public class Controller {
 	public void initGui() {
 		RRFrame.createAndShowGUI(this);
 	}
+
 }
