@@ -13,8 +13,10 @@ public class loadRangeListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		//TODO populate rangelist
+		//TODO redo what gets called here 
 		controller.loadAllRange();
+		controller.updateRangeList();
 		//controller.loadRange();
 	}
 

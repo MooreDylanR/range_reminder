@@ -90,6 +90,10 @@ public class RRFrame extends JFrame{
 		rangeSelectionModel.addElement(rangeName);
 	}
 	
+	public static void removeAllRanges() {
+		rangeSelectionModel.removeAllElements();
+	}
+	
 	private void addButtonsToRangePanel(JPanel rangePanel, Controller controller) {
 		GridBagConstraints c = new GridBagConstraints();
 		Range range = controller.getActiveRange();
@@ -134,10 +138,11 @@ public class RRFrame extends JFrame{
 		rangeSelectionBox.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		rangeSelectionBox.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		//can call the below statement anywhere
-		rangeSelectionModel.addElement("test");
-		rangeSelectionModel.addElement("test");
-		rangeSelectionModel.addElement("test");
-		rangeSelectionModel.addElement("test");
+		
+		String[] rangeNames = controller.getRangeNames();
+		populateRangeList(rangeNames);
+		
+		
 		rangeSelectionBox.setPreferredSize(new Dimension(100,250));
 		c.gridx=0;
 		c.gridy=1;
@@ -223,6 +228,19 @@ public class RRFrame extends JFrame{
 		
 
 		System.out.println("addButtonsToRangePanel complete");
+	}
+
+	private void populateRangeList(String[] rangeNames) {
+		//clear old ranges from rangelist
+		rangeSelectionModel.clear();
+		//add new ranges to rangelist
+		//only add ranges to the rangelist if the name does not start with .
+		//TODO do not add if name is blank?
+		for(int i=0;i<rangeNames.length;i++) {
+			if (rangeNames[i].charAt(0) != '.') {
+				rangeSelectionModel.addElement(rangeNames[i]);	
+			}	
+		}
 	}
 	
 }

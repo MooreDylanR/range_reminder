@@ -19,7 +19,7 @@ public class Run {
 		
 		Controller controller = new Controller(view,model);
 		
-		controller.printRange();
+		//old, wont work without an initial range - controller.printRange();
 		controller.initGui();
 	}
 }

@@ -21,9 +21,17 @@ public class rangeListSelectionListener implements ListSelectionListener {
 	
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
+		int rangeIndex;
 		System.out.println(rangeList.getSelectedIndex());
-		controller.setRange(rangeList.getSelectedIndex());
-		controller.loadRange();
+		rangeIndex = controller.getRangeByName(rangeList.getSelectedValue());//param of whatever the string for the range name is 
+		System.out.println(rangeList.getSelectedValue());
+		if(rangeIndex != -1) {
+			controller.setRange(rangeIndex);// old way rangeList.getSelectedIndex()
+			controller.loadRange();
+		} else {
+			System.out.println("cant find a range by that name");
+		}
+		
 		
 	}
 
